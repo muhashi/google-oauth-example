@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>yo</title>
+    <meta name="author" content="yo">
+    <meta name="description" content="yo">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    <script>
+        const oauth2Endpoint = 'https://accounts.google.com/o/oauth2/v2/auth';
+
+        const form = document.createElement('form');
+        form.setAttribute('method', 'GET');
+        form.setAttribute('action', oauth2Endpoint);
+
+        const params = {
+            'client_id': '430088209685-1dh80lcbnv2vtlqsu9aiirq3hrijg023.apps.googleusercontent.com',
+            'redirect_uri': 'https://muhashi.github.io/google-oauth-example/',
+            'response_type': 'token',
+            'scope': 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
+        };
+
+        for (const p in params) {
+            const input = document.createElement('input');
+            input.setAttribute('type', 'hidden');
+            input.setAttribute('name', p);
+            input.setAttribute('value', params[p]);
+            form.appendChild(input);
+        }
+
+        const input = document.createElement('input');
+        input.setAttribute('type', 'submit');
+        input.setAttribute('value', 'Sign in with Google');
+
+        document.body.appendChild(form);
+    </script>
+</body>
+
+</html>
