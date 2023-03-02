@@ -46,7 +46,7 @@
             if (!urlParams.has('access_token') || !urlParams.has('token_type') || !urlParams.has('expires_in')
                 || urlParams.get('token_type') !== 'Bearer') {
                 const error = document.createElement('h1');
-                error.setAttribute('innerText', 'Error: Google Oauth returned invalid response. ' + urlParams.get("error"));
+                error.innerText = 'Error: Google Oauth returned invalid response. ' + urlParams.get("error");
                 document.body.appendChild(error);
                 throw new Error('Google Oauth returned invalid response.');
             }
@@ -56,16 +56,15 @@
             fetch(oauth2Endpoint).then((response) => response.json())
                 .then((data) => {
                     const name = document.createElement('h1');
-                    name.setAttribute('innerText', `Hello ${data.name}!`);
+                    name.innerText = `Hello ${data.name}!`;
                     document.body.appendChild(name);
 
                     const info = document.createElement('p');
-                    info.setAttribute('innerHTML',
+                    info.innerHTML =
                         `:o your email is ' + ${data.email} + ' O_O <br><br>`
                         + `wooah that&quot;s a nice looking photo ! <br>`
                         + `<img src = ${data.picture} ><br><br>`
-                        + (data.verified_email ? 'and look at that! you even verified your email! nice going :)' : 'you should probably get around to verifying your email sometime, google says you still havent done that...')
-                    );
+                        + (data.verified_email ? 'and look at that! you even verified your email! nice going :)' : 'you should probably get around to verifying your email sometime, google says you still havent done that...');
                     document.body.appendChild(info);
                 })
                 .catch((error) => {
