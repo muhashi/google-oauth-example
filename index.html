@@ -70,6 +70,18 @@
                     const info = document.createElement('p');
                     info.innerHTML = `wooah that&quot;s a nice looking photo ! <br><img src = ${data.picture} ><br><br>`;
                     document.body.appendChild(info);
+
+                    const logoutUrl = 'https://oauth2.googleapis.com/revoke?token=' + access_token;
+
+                    const logoutForm = document.createElement('form');
+                    logoutForm.setAttribute('method', 'POST');
+                    logoutForm.setAttribute('action', logoutUrl);
+                    logoutForm.setAttribute('onsubmit', "document.cookie = 'access_token=;expires=Thu, 01 Jan 1970 00:00:00 GMT;'");
+
+                    const logoutButton = document.createElement('input');
+                    logoutButton.setAttribute('type', 'submit');
+                    logoutButton.setAttribute('value', 'Logout');
+                    logoutForm.appendChild(logoutButton);
                 })
                 .catch((error) => {
                     throw new Error(error);
