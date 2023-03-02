@@ -82,6 +82,8 @@
                     logoutButton.setAttribute('type', 'submit');
                     logoutButton.setAttribute('value', 'Logout');
                     logoutForm.appendChild(logoutButton);
+
+                    document.body.appendChild(logoutForm);
                 })
                 .catch((error) => {
                     throw new Error(error);
