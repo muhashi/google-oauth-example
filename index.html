@@ -10,6 +10,7 @@
 </head>
 
 <body>
+    <iframe name="dummyframe" id="dummyframe" style="display: none;"></iframe>
     <script>
         const cookies = document.cookie.match((/(?<=access_token=).*\b/));
         const access_token = (cookies === null) ? '' : cookies[0];
@@ -76,11 +77,11 @@
                     const logoutForm = document.createElement('form');
                     logoutForm.setAttribute('method', 'POST');
                     logoutForm.setAttribute('action', logoutUrl);
+                    logoutForm.setAttribute('target', 'dummyframe');
                     logoutForm.setAttribute('onsubmit', "document.cookie = 'access_token=;expires=Thu, 01 Jan 1970 00:00:00 GMT;'");
 
-                    const logoutButton = document.createElement('button');
-                    logoutButton.setAttribute('type', 'button');
-                    logoutButton.setAttribute('onclick', 'formSubmit(event);');
+                    const logoutButton = document.createElement('input');
+                    logoutButton.setAttribute('type', 'submit');
                     logoutButton.innerText = 'Logout';
                     logoutForm.appendChild(logoutButton);
 
