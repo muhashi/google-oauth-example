@@ -11,33 +11,68 @@
 
 <body>
     <script>
-        const oauth2Endpoint = 'https://accounts.google.com/o/oauth2/v2/auth';
+        if (!window.location.hash) {
+            const oauth2Endpoint = 'https://accounts.google.com/o/oauth2/v2/auth';
 
-        const form = document.createElement('form');
-        form.setAttribute('method', 'GET');
-        form.setAttribute('action', oauth2Endpoint);
+            const form = document.createElement('form');
+            form.setAttribute('method', 'GET');
+            form.setAttribute('action', oauth2Endpoint);
 
-        const params = {
-            'client_id': '430088209685-1dh80lcbnv2vtlqsu9aiirq3hrijg023.apps.googleusercontent.com',
-            'redirect_uri': 'https://muhashi.github.io/google-oauth-example/',
-            'response_type': 'token',
-            'scope': 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
-        };
+            const params = {
+                'client_id': '430088209685-1dh80lcbnv2vtlqsu9aiirq3hrijg023.apps.googleusercontent.com',
+                'redirect_uri': 'https://muhashi.github.io/google-oauth-example/',
+                'response_type': 'token',
+                'scope': 'https://www.googleapis.com/auth/userinfo.profile',
+            };
 
-        for (const p in params) {
+            for (const p in params) {
+                const input = document.createElement('input');
+                input.setAttribute('type', 'hidden');
+                input.setAttribute('name', p);
+                input.setAttribute('value', params[p]);
+                form.appendChild(input);
+            }
+
             const input = document.createElement('input');
-            input.setAttribute('type', 'hidden');
-            input.setAttribute('name', p);
-            input.setAttribute('value', params[p]);
+            input.setAttribute('type', 'submit');
+            input.setAttribute('value', 'Sign in with Google (only gets profile info)');
             form.appendChild(input);
+
+            document.body.appendChild(form);
+        } else {
+            const hash = window.location.hash.substring(1);
+            const urlParams = new URLSearchParams(hash);
+            
+            if (!urlParams.has('access_token') || !urlParams.has('token_type') || !urlParams.has('expires_in')
+                || urlParams.get('token_type') !== 'Bearer'
+                || !Number.isInteger(urlParams.get(expires_in)) || parseInt(!urlParams.get(expires_in), 10) > 0) {
+                const error = document.createElement('h1');
+                error.setAttribute('innerText', 'Error: Google Oauth returned invalid response. ' + urlParams.get("error"));
+                document.body.appendChild(error);
+                throw new Error('Google Oauth returned invalid response.');
+            }
+
+            const oauth2Endpoint = 'https://www.googleapis.com/oauth2/v2/userinfo?alt=json&access_token=' + urlParams.get('access_token');
+
+            fetch(url).then((response) => response.json())
+                .then((data) => {
+                    const name = document.createElement('h1');
+                    name.setAttribute('innerText', `Hello ${data.name}!`);
+                    document.body.appendChild(name);
+
+                    const info = document.createElement('p');
+                    info.setAttribute('innerHTML',
+                        `:o your email is ' + ${data.email} + ' O_O <br><br>`
+                        + `wooah that&quot;s a nice looking photo ! <br>`
+                        + `<img src = ${data.picture} ><br><br>`
+                        + (data.verified_email ? 'and look at that! you even verified your email! nice going :)' : 'you should probably get around to verifying your email sometime, google says you still havent done that...')
+                    );
+                    document.body.appendChild(info);
+                })
+                .catch((error) => {
+                    throw new Error(error);
+                });
         }
-
-        const input = document.createElement('input');
-        input.setAttribute('type', 'submit');
-        input.setAttribute('value', 'Sign in with Google');
-        form.appendChild(input);
-
-        document.body.appendChild(form);
     </script>
 </body>
 
