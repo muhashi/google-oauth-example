@@ -78,9 +78,10 @@
                     logoutForm.setAttribute('action', logoutUrl);
                     logoutForm.setAttribute('onsubmit', "document.cookie = 'access_token=;expires=Thu, 01 Jan 1970 00:00:00 GMT;'");
 
-                    const logoutButton = document.createElement('input');
-                    logoutButton.setAttribute('type', 'submit');
-                    logoutButton.setAttribute('value', 'Logout');
+                    const logoutButton = document.createElement('button');
+                    logoutButton.setAttribute('type', 'button');
+                    logoutButton.setAttribute('onclick', 'formSubmit(event);');
+                    logoutButton.innerText = 'Logout';
                     logoutForm.appendChild(logoutButton);
 
                     document.body.appendChild(logoutForm);
