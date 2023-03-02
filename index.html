@@ -61,10 +61,8 @@
 
                     const info = document.createElement('p');
                     info.innerHTML =
-                        `:o your email is ' + ${data.email} + ' O_O <br><br>`
                         + `wooah that&quot;s a nice looking photo ! <br>`
                         + `<img src = ${data.picture} ><br><br>`
-                        + (data.verified_email ? 'and look at that! you even verified your email! nice going :)' : 'you should probably get around to verifying your email sometime, google says you still havent done that...');
                     document.body.appendChild(info);
                 })
                 .catch((error) => {
