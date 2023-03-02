@@ -44,8 +44,7 @@
             const urlParams = new URLSearchParams(hash);
             
             if (!urlParams.has('access_token') || !urlParams.has('token_type') || !urlParams.has('expires_in')
-                || urlParams.get('token_type') !== 'Bearer'
-                || !Number.isInteger(urlParams.get(expires_in)) || parseInt(!urlParams.get(expires_in), 10) > 0) {
+                || urlParams.get('token_type') !== 'Bearer') {
                 const error = document.createElement('h1');
                 error.setAttribute('innerText', 'Error: Google Oauth returned invalid response. ' + urlParams.get("error"));
                 document.body.appendChild(error);
