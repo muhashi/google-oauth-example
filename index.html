@@ -53,7 +53,7 @@
 
             const oauth2Endpoint = 'https://www.googleapis.com/oauth2/v2/userinfo?alt=json&access_token=' + urlParams.get('access_token');
 
-            fetch(url).then((response) => response.json())
+            fetch(oauth2Endpoint).then((response) => response.json())
                 .then((data) => {
                     const name = document.createElement('h1');
                     name.setAttribute('innerText', `Hello ${data.name}!`);
