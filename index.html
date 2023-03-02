@@ -78,11 +78,11 @@
                     logoutForm.setAttribute('method', 'POST');
                     logoutForm.setAttribute('action', logoutUrl);
                     logoutForm.setAttribute('target', 'dummyframe');
-                    logoutForm.setAttribute('onsubmit', "document.cookie = 'access_token=;expires=Thu, 01 Jan 1970 00:00:00 GMT;'");
+                    logoutForm.setAttribute('onsubmit', "document.cookie = 'access_token=;expires=Thu, 01 Jan 1970 00:00:00 GMT;'; location.reload();");
 
                     const logoutButton = document.createElement('input');
                     logoutButton.setAttribute('type', 'submit');
-                    logoutButton.innerText = 'Logout';
+                    logoutButton.setAttribute('value', 'Logout');
                     logoutForm.appendChild(logoutButton);
 
                     document.body.appendChild(logoutForm);
