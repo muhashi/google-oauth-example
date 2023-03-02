@@ -11,7 +11,10 @@
 
 <body>
     <script>
-        if (!window.location.hash) {
+        const cookies = document.cookie.match((/(?<=access_token=).*\b/));
+        const access_token = (cookies === null) ? '' : cookies[0];
+
+        if (!window.location.hash && !access_token) {
             const oauth2Endpoint = 'https://accounts.google.com/o/oauth2/v2/auth';
 
             const form = document.createElement('form');
@@ -39,7 +42,7 @@
             form.appendChild(input);
 
             document.body.appendChild(form);
-        } else {
+        } else if (window.location.hash && !access_token) {
             const hash = window.location.hash.substring(1);
             const urlParams = new URLSearchParams(hash);
             
@@ -51,18 +54,21 @@
                 throw new Error('Google Oauth returned invalid response.');
             }
 
-            const oauth2Endpoint = 'https://www.googleapis.com/oauth2/v2/userinfo?alt=json&access_token=' + urlParams.get('access_token');
+            document.cookie = 'access_token=' + urlParams.get('access_token');
+            window.location.replace("https://muhashi.github.io/google-oauth-example/");
+
+        } else if (access_token) {
+            const oauth2Endpoint = 'https://www.googleapis.com/oauth2/v2/userinfo?alt=json&access_token=' + access_token;
 
             fetch(oauth2Endpoint).then((response) => response.json())
                 .then((data) => {
+                    console.log(data);
                     const name = document.createElement('h1');
                     name.innerText = `Hello ${data.name}!`;
                     document.body.appendChild(name);
 
                     const info = document.createElement('p');
-                    info.innerHTML =
-                        + `wooah that&quot;s a nice looking photo ! <br>`
-                        + `<img src = ${data.picture} ><br><br>`
+                    info.innerHTML = `wooah that&quot;s a nice looking photo ! <br><img src = ${data.picture} ><br><br>`;
                     document.body.appendChild(info);
                 })
                 .catch((error) => {
